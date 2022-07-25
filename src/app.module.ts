@@ -23,7 +23,8 @@ import { AppInterceptor } from './app.interceptor';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       autoSchemaFile: "schema.gql",
       driver: ApolloDriver,
-      resolvers: { UUID: GqlUuid }
+      resolvers: { UUID: GqlUuid },
+      playground: process.env.mode !== "prod"
     }),
     ReservationsModule
   ],
