@@ -1,4 +1,4 @@
-import { Parent, ResolveProperty, Resolver } from "@nestjs/graphql";
+import { Parent, ResolveField, Resolver } from "@nestjs/graphql";
 import { User } from "src/users/dto/user.entity";
 import { IUser } from "src/users/interfaces/user.interface";
 import { UsersService } from "src/users/users.service";
@@ -9,7 +9,7 @@ import { IReservation } from "./interfaces/reservation.interface";
 export class ReservationsPropertyResolver {
     constructor(private readonly userService: UsersService) {}
 
-    @ResolveProperty(returns => User)
+    @ResolveField(returns => User)
     client(
         @Parent() reservation: IReservation
     ): Promise<IUser> {
