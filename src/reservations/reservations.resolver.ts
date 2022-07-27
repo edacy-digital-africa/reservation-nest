@@ -3,6 +3,7 @@ import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { AuthGuard } from "src/auth/auth.guard";
 import { CurrentUser } from "src/auth/decorators/current-user.decorator";
 import { Origin } from "src/commons/decorators/origin.decorator";
+import { QueryDataConfigInput } from "src/commons/graphql/query-data-config.input";
 import { IUser } from "src/users/interfaces/user.interface";
 import { Reservation } from "./dto/reservation.entity";
 import { ReservationInput } from "./dto/reservation.input";
@@ -26,9 +27,10 @@ export class RerservationResolver {
 
     @Query(returns => [Reservation])
     async fetchReservations(
-        @Origin() origin: string
+        @Origin() origin: string,
+        @Args({ name: 'queryDataConfigInput', type: () => QueryDataConfigInput, nullable: true }) queryDataConfigInput: QueryDataConfigInput
     ): Promise<IReservation[]> {
         console.log({origin})
-        return this.reservationService.findAll();
+        return this.reservationService.findAll(queryDataConfigInput);
     }
 }

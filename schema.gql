@@ -29,12 +29,29 @@ type Reservation {
 scalar UUID
 
 type Query {
-  fetchProducts: [Product!]!
+  fetchProducts(queryDataConfigInput: QueryDataConfigInput): [Product!]!
   fetchProduct(id: ID!): Product!
   fetchProductsReservations: [ProductReservation!]!
   fetchUsers: [User!]!
   fetchUser(username: String!): User!
-  fetchReservations: [Reservation!]!
+  fetchReservations(queryDataConfigInput: QueryDataConfigInput): [Reservation!]!
+}
+
+input QueryDataConfigInput {
+  limit: Int
+  skip: Int
+  orderBy: OrderByInput
+}
+
+input OrderByInput {
+  property: String!
+  direction: OrderByDirection!
+}
+
+"""Sort order"""
+enum OrderByDirection {
+  ASC
+  DESC
 }
 
 union ProductReservation = Product | Reservation

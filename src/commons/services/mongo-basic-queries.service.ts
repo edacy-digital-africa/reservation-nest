@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Model, ObjectId } from "mongoose";
+import { QueryDataConfigInput } from "../graphql/query-data-config.input";
+import { normalizeQueryDataConfig } from "../utils";
 
 @Injectable()
 export abstract class MongoBasicQueriesService<T> {
@@ -12,8 +14,9 @@ export abstract class MongoBasicQueriesService<T> {
         return this.abstractModel.create(payload);
     }
 
-    async findAll(): Promise<T[]> {
-        return this.abstractModel.find();
+    async findAll(queryConfig?: QueryDataConfigInput): Promise<T[]> {
+        const { limit, skip } = normalizeQueryDataConfig(queryConfig);
+        return this.abstractModel.find().skip(skip).limit(limit);
     }
 
     async findOneById(id: ObjectId) {
